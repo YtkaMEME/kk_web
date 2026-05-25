@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff6e6">
+  <title>Екатерина Князева</title>
+  <link rel="icon" type="image/png" href="img/Лого_черный-2.png">
+  <style>
+    @font-face {
+      font-family: "Tavrida";
+      src: url("fonts/Tavrida-Regular.otf") format("opentype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Tavrida";
+      src: url("fonts/Tavrida-Bold.otf") format("opentype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Tavrida";
+      src: url("fonts/Tavrida-ExtraBold.otf") format("opentype");
+      font-weight: 800;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --ink: #111820;
+      --muted: #59616f;
+      --paper: #fff8eb;
+      --paper-strong: #ffffff;
+      --line: rgba(17, 24, 32, 0.16);
+      --sky: #91b8df;
+      --coral: #ff6a4a;
+      --sun: #ffd15a;
+      --mint: #62c6ad;
+      --berry: #a95c8d;
+      --shadow: 0 22px 70px rgba(17, 24, 32, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      font-family: "Tavrida", Arial, sans-serif;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(180deg, rgba(255, 248, 235, 0.78), rgba(255, 255, 255, 0.9) 45%, rgba(238, 248, 244, 0.86));
+      overflow-x: hidden;
+    }
+
+    body.is-loading {
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        url("paterns/5.png"),
+        url("paterns/7.png"),
+        url("paterns/8.png");
+      background-repeat: no-repeat;
+      background-size: 430px auto, 360px auto, 330px auto;
+      background-position: -120px 18vh, calc(100% + 90px) 48vh, 4vw 92vh;
+      opacity: 0.13;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    ::selection {
+      color: var(--ink);
+      background: var(--sun);
+    }
+
+    .preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(255, 248, 235, 0.96), rgba(239, 251, 247, 0.96)),
+        url("paterns/7.png");
+      background-repeat: no-repeat;
+      background-size: cover, 360px auto;
+      background-position: center, calc(100% + 90px) calc(100% + 70px);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 520ms ease, visibility 520ms ease;
+    }
+
+    .preloader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .preloader-card {
+      display: grid;
+      justify-items: center;
+      gap: 22px;
+      width: min(420px, 100%);
+      text-align: center;
+    }
+
+    .preloader-mark {
+      position: relative;
+      width: 92px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: 0 18px 52px rgba(17, 24, 32, 0.12);
+    }
+
+    .preloader-mark::before,
+    .preloader-mark::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      background: var(--sky);
+      mask: url("paterns/5.png") center / contain no-repeat;
+      animation: loaderSpin 1.8s ease-in-out infinite;
+    }
+
+    .preloader-mark::after {
+      inset: 34px;
+      background: var(--coral);
+      border-radius: 50%;
+      mask: none;
+      animation: loaderPulse 1.15s ease-in-out infinite;
+    }
+
+    .preloader-title {
+      margin: 0;
+      font-size: clamp(1.7rem, 6vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1;
+      text-wrap: balance;
+    }
+
+    .preloader-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .preloader-progress {
+      width: min(260px, 80vw);
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(17, 24, 32, 0.12);
+      overflow: hidden;
+    }
+
+    .preloader-progress span {
+      display: block;
+      width: 42%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--coral), var(--sun), var(--mint));
+      animation: loaderBar 1.2s ease-in-out infinite;
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 92svh;
+      display: grid;
+      align-items: end;
+      padding: clamp(22px, 4vw, 54px);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(90deg, rgba(12, 18, 26, 0.82) 0%, rgba(12, 18, 26, 0.52) 43%, rgba(12, 18, 26, 0.16) 100%),
+        linear-gradient(180deg, rgba(12, 18, 26, 0.08), rgba(12, 18, 26, 0.72)),
+        url("photos/Август 2025 любовалась закатами с коллегами.jpeg");
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.04);
+      animation: heroBreath 14s ease-in-out infinite alternate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        url("paterns/6.png"),
+        linear-gradient(120deg, rgba(255, 209, 90, 0.28), rgba(98, 198, 173, 0.08) 42%, rgba(255, 106, 74, 0.28));
+      background-repeat: no-repeat, no-repeat;
+      background-size: 480px auto, cover;
+      background-position: calc(100% + 80px) 10vh, center;
+      mix-blend-mode: screen;
+      opacity: 0.58;
+    }
+
+    .brand-logo {
+      position: absolute;
+      top: clamp(18px, 3vw, 36px);
+      left: clamp(18px, 3vw, 42px);
+      z-index: 3;
+      width: clamp(140px, 17vw, 260px);
+      height: auto;
+    }
+
+    .hero-content {
+      width: min(980px, 100%);
+      padding: 18vh 0 7vh;
+      transform: translateY(18px);
+      opacity: 0;
+      animation: riseIn 900ms 180ms ease forwards;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      margin: 0 0 18px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      font-size: clamp(0.78rem, 1.7vw, 1rem);
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 920px;
+      margin: 0;
+      font-size: clamp(4.2rem, 15vw, 11rem);
+      font-weight: 800;
+      line-height: 0.86;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .hero-lead {
+      max-width: 690px;
+      margin: clamp(24px, 4vw, 42px) 0 0;
+      font-size: clamp(1.15rem, 2.4vw, 2rem);
+      font-weight: 400;
+      line-height: 1.24;
+      text-wrap: balance;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 30px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .hero-tags li {
+      padding: 10px 14px;
+      border-radius: 6px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      right: clamp(18px, 4vw, 52px);
+      bottom: clamp(18px, 4vw, 44px);
+      z-index: 3;
+      display: inline-grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      animation: softBounce 2.2s ease-in-out infinite;
+    }
+
+    .scroll-cue svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .hero-photo {
+      position: absolute;
+      z-index: 2;
+      width: clamp(128px, 15vw, 230px);
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 8px solid rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(24px) rotate(var(--tilt));
+      animation: stickerIn 780ms ease forwards;
+    }
+
+    .hero-photo.one {
+      top: 16vh;
+      right: min(9vw, 130px);
+      --tilt: 6deg;
+      animation-delay: 420ms;
+    }
+
+    .hero-photo.two {
+      right: min(24vw, 320px);
+      bottom: 9vh;
+      width: clamp(112px, 12vw, 190px);
+      --tilt: -8deg;
+      animation-delay: 560ms;
+    }
+
+    .intro {
+      position: relative;
+      padding: clamp(56px, 9vw, 108px) clamp(20px, 5vw, 64px);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 246, 223, 0.94)),
+        url("paterns/8.png");
+      background-repeat: no-repeat;
+      background-size: cover, 320px auto;
+      background-position: center, calc(100% + 80px) center;
+    }
+
+    .intro-inner {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: clamp(28px, 6vw, 84px);
+      align-items: center;
+    }
+
+    .section-label {
+      display: inline-block;
+      margin: 0 0 18px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: #275e86;
+      text-transform: uppercase;
+    }
+
+    .intro h2,
+    .finale h2 {
+      margin: 0;
+      font-size: clamp(2.3rem, 6vw, 5.8rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .intro p {
+      max-width: 690px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.34rem);
+      line-height: 1.55;
+    }
+
+    .intro-note {
+      position: relative;
+      padding: clamp(22px, 4vw, 36px);
+      border: 2px solid rgba(17, 24, 32, 0.12);
+      border-radius: 8px;
+      background: var(--paper-strong);
+      box-shadow: 0 18px 50px rgba(17, 24, 32, 0.08);
+      transform: rotate(1deg);
+    }
+
+    .intro-note::before {
+      content: "";
+      position: absolute;
+      top: -18px;
+      left: 24px;
+      width: 78px;
+      height: 32px;
+      border-radius: 6px;
+      background: rgba(255, 209, 90, 0.72);
+      transform: rotate(-4deg);
+    }
+
+    .intro-note strong {
+      display: block;
+      margin-bottom: 14px;
+      font-size: clamp(1.5rem, 3vw, 2.3rem);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .intro-note span {
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.45;
+    }
+
+    .timeline-section {
+      position: relative;
+      padding: clamp(48px, 8vw, 94px) clamp(18px, 5vw, 64px) clamp(84px, 12vw, 150px);
+    }
+
+    .timeline-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("paterns/6.png"), url("paterns/7.png");
+      background-repeat: no-repeat;
+      background-size: 260px auto, 310px auto;
+      background-position: calc(100% - 7vw) 8vh, 6vw 52%;
+      opacity: 0.08;
+    }
+
+    .timeline-inner {
+      position: relative;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .timeline-rail {
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 54px;
+      width: 6px;
+      border-radius: 999px;
+      background: var(--line);
+      overflow: hidden;
+    }
+
+    .timeline-progress {
+      width: 100%;
+      height: 0%;
+      border-radius: inherit;
+      background: linear-gradient(180deg, var(--coral), var(--sun) 38%, var(--mint) 68%, var(--sky));
+      transition: height 120ms linear;
+    }
+
+    .timeline-heading {
+      margin: 0 0 clamp(42px, 7vw, 82px) 150px;
+    }
+
+    .timeline-heading h2 {
+      max-width: 860px;
+      margin: 0;
+      font-size: clamp(2.4rem, 7vw, 6.8rem);
+      font-weight: 800;
+      line-height: 0.94;
+      text-wrap: balance;
+    }
+
+    .timeline-heading p {
+      max-width: 620px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      line-height: 1.52;
+    }
+
+    .timeline-list {
+      display: grid;
+      gap: clamp(52px, 8vw, 98px);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-left: 150px;
+      opacity: 0;
+      transform: translate3d(0, 54px, 0) rotate(0.4deg);
+      transition:
+        opacity 800ms ease,
+        transform 800ms cubic-bezier(0.2, 0.82, 0.2, 1);
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    .timeline-node {
+      position: absolute;
+      top: clamp(38px, 5vw, 64px);
+      left: -113px;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 4px solid var(--paper);
+      border-radius: 50%;
+      color: #fff;
+      background: var(--accent, var(--coral));
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.72), 0 16px 34px rgba(17, 24, 32, 0.18);
+      font-size: 0.78rem;
+      font-weight: 800;
+      line-height: 1;
+      transition: transform 500ms ease, box-shadow 500ms ease;
+    }
+
+    .timeline-item.visible .timeline-node {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.88), 0 18px 42px rgba(17, 24, 32, 0.24);
+    }
+
+    .memory-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(240px, 0.86fr) minmax(0, 1.14fr);
+      gap: clamp(20px, 4vw, 46px);
+      align-items: center;
+      min-height: 520px;
+      padding: clamp(18px, 3.6vw, 42px);
+      border: 2px solid rgba(17, 24, 32, 0.1);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82)),
+        var(--card-bg, #fff);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .memory-card::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -80px;
+      width: 260px;
+      height: 190px;
+      background-image: var(--pattern);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.16;
+      pointer-events: none;
+      transform: rotate(8deg);
+    }
+
+    .media-frame {
+      position: relative;
+      margin: 0;
+      min-width: 0;
+      transform: rotate(var(--tilt, -1deg));
+    }
+
+    .lift-media .media-frame {
+      align-self: start;
+      margin-top: clamp(10px, 2vw, 28px);
+    }
+
+    .media-frame::before {
+      content: "";
+      position: absolute;
+      inset: 12px -12px -12px 12px;
+      z-index: 0;
+      border-radius: 8px;
+      background: var(--accent, var(--sky));
+    }
+
+    .media-frame img,
+    .media-frame video {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 360px;
+      max-height: 590px;
+      object-fit: cover;
+      border: 8px solid #fff;
+      border-radius: 8px;
+      background: #111820;
+      box-shadow: 0 18px 38px rgba(17, 24, 32, 0.16);
+    }
+
+    .media-frame video {
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+      max-height: none;
+    }
+
+    .caption-chip {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      max-width: min(420px, 92%);
+      margin: -22px 0 0 18px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: var(--ink);
+      background: var(--sun);
+      box-shadow: 0 12px 24px rgba(17, 24, 32, 0.13);
+      font-size: clamp(0.86rem, 1.7vw, 1rem);
+      font-weight: 800;
+      line-height: 1.2;
+      transform: rotate(-1.5deg);
+    }
+
+    .memory-copy {
+      position: relative;
+      z-index: 1;
+      align-self: center;
+      min-width: 0;
+    }
+
+    .chapter {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--accent-deep, #275e86);
+      font-size: 0.92rem;
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .chapter::after {
+      content: "";
+      width: 48px;
+      height: 3px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .memory-copy h3 {
+      margin: 0;
+      max-width: 100%;
+      font-size: clamp(2rem, 4.2vw, 3.85rem);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: 0;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      word-break: normal;
+      text-wrap: balance;
+    }
+
+    .memory-copy p {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.65vw, 1.22rem);
+      line-height: 1.55;
+    }
+
+    .tone-sky {
+      --accent: var(--sky);
+      --accent-deep: #285f8e;
+      --card-bg: #eef7ff;
+    }
+
+    .tone-coral {
+      --accent: var(--coral);
+      --accent-deep: #9b3320;
+      --card-bg: #fff1ec;
+    }
+
+    .tone-sun {
+      --accent: var(--sun);
+      --accent-deep: #7c5a00;
+      --card-bg: #fff7d8;
+    }
+
+    .tone-mint {
+      --accent: var(--mint);
+      --accent-deep: #236e61;
+      --card-bg: #effbf7;
+    }
+
+    .tone-berry {
+      --accent: var(--berry);
+      --accent-deep: #71355e;
+      --card-bg: #fff0f7;
+    }
+
+    .pattern-5 {
+      --pattern: url("paterns/5.png");
+    }
+
+    .pattern-6 {
+      --pattern: url("paterns/6.png");
+    }
+
+    .pattern-7 {
+      --pattern: url("paterns/7.png");
+    }
+
+    .pattern-8 {
+      --pattern: url("paterns/8.png");
+    }
+
+    .finale {
+      position: relative;
+      isolation: isolate;
+      padding: clamp(70px, 13vw, 150px) clamp(20px, 5vw, 64px);
+      color: #fff;
+      background:
+        linear-gradient(115deg, rgba(17, 24, 32, 0.94), rgba(45, 61, 72, 0.82)),
+        url("photos/Была буквой «О».jpeg");
+      background-size: cover;
+      background-position: center 60%;
+      overflow: hidden;
+    }
+
+    .finale::before {
+      content: "";
+      position: absolute;
+      inset: auto -80px -120px auto;
+      z-index: -1;
+      width: min(52vw, 640px);
+      aspect-ratio: 1;
+      background: url("paterns/5.png") center / contain no-repeat;
+      opacity: 0.22;
+      transform: rotate(16deg);
+    }
+
+    .finale-inner {
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+
+    .finale-logo {
+      width: clamp(140px, 18vw, 260px);
+      margin-bottom: clamp(30px, 6vw, 70px);
+    }
+
+    .finale p {
+      max-width: 780px;
+      margin: 28px 0 0;
+      font-size: clamp(1.12rem, 2.2vw, 1.65rem);
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.84);
+      text-wrap: balance;
+    }
+
+    .celebrate-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 36px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      border-radius: 6px;
+      color: var(--ink);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 800;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .celebrate-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.26);
+    }
+
+    .celebrate-button:focus-visible,
+    .scroll-cue:focus-visible {
+      outline: 3px solid var(--sun);
+      outline-offset: 4px;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      top: -22px;
+      z-index: 30;
+      width: 9px;
+      height: 15px;
+      border-radius: 2px;
+      pointer-events: none;
+      animation-name: confettiFall;
+      animation-timing-function: cubic-bezier(0.18, 0.78, 0.28, 1);
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes heroBreath {
+      from {
+        transform: scale(1.04);
+      }
+
+      to {
+        transform: scale(1.1) translateX(1.4%);
+      }
+    }
+
+    @keyframes riseIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes stickerIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(var(--tilt));
+      }
+    }
+
+    @keyframes softBounce {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(8px);
+      }
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate3d(var(--drift), 110vh, 0) rotate(var(--spin));
+        opacity: 0;
+      }
+    }
+
+    @keyframes loaderSpin {
+      0%,
+      100% {
+        transform: rotate(0deg) scale(1);
+      }
+
+      50% {
+        transform: rotate(34deg) scale(1.08);
+      }
+    }
+
+    @keyframes loaderPulse {
+      0%,
+      100% {
+        transform: scale(0.82);
+        opacity: 0.58;
+      }
+
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes loaderBar {
+      0% {
+        transform: translateX(-105%);
+      }
+
+      100% {
+        transform: translateX(245%);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero-photo.two {
+        display: none;
+      }
+
+      .intro-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .intro-note {
+        transform: rotate(0deg);
+      }
+
+      .memory-card {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+
+      .media-frame {
+        width: min(620px, 100%);
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      body::before {
+        background-size: 300px auto, 260px auto, 250px auto;
+        background-position: -120px 12vh, calc(100% + 120px) 58vh, -70px 120vh;
+      }
+
+      .hero {
+        width: 100%;
+        min-height: 100svh;
+        padding: 24px 18px 76px;
+        background: #111820;
+      }
+
+      .hero::before {
+        background-position: 43% center;
+        transform: none;
+        animation: none;
+      }
+
+      .hero::after {
+        background-size: 340px auto, cover;
+        background-position: calc(100% + 170px) 38vh, center;
+        opacity: 0.42;
+      }
+
+      .brand-logo {
+        top: 26px;
+        left: 18px;
+        width: 122px;
+      }
+
+      .hero-content {
+        width: 100%;
+        padding: 26vh 0 34px;
+      }
+
+      .hero h1 {
+        max-width: 100%;
+        font-size: clamp(3rem, 14.6vw, 3.75rem);
+        line-height: 0.94;
+      }
+
+      .hero-lead {
+        max-width: 100%;
+        margin-top: 20px;
+        font-size: clamp(1rem, 4.2vw, 1.12rem);
+        line-height: 1.28;
+      }
+
+      .hero-photo.one {
+        top: 112px;
+        right: 20px;
+        width: 82px;
+        border-width: 6px;
+      }
+
+      .hero-tags {
+        gap: 8px;
+        margin-top: 22px;
+      }
+
+      .hero-tags li {
+        padding: 9px 10px;
+        font-size: 0.76rem;
+        white-space: nowrap;
+      }
+
+      .scroll-cue {
+        left: 18px;
+        right: auto;
+        bottom: 20px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .timeline-section {
+        padding: 38px 10px 72px;
+      }
+
+      .timeline-inner {
+        width: 100%;
+      }
+
+      .timeline-rail {
+        left: 18px;
+        width: 4px;
+      }
+
+      .timeline-heading {
+        max-width: calc(100% - 44px);
+        margin: 0 0 36px 44px;
+      }
+
+      .timeline-heading h2 {
+        font-size: clamp(2.05rem, 8.8vw, 2.45rem);
+        line-height: 1.06;
+      }
+
+      .timeline-heading p {
+        margin-top: 14px;
+        font-size: 0.98rem;
+      }
+
+      .timeline-item {
+        margin-left: 44px;
+      }
+
+      .timeline-list {
+        gap: 52px;
+      }
+
+      .timeline-node {
+        top: 34px;
+        left: -42px;
+        width: 32px;
+        height: 32px;
+        border-width: 3px;
+        box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.78), 0 12px 24px rgba(17, 24, 32, 0.16);
+        font-size: 0.64rem;
+      }
+
+      .memory-card {
+        gap: 0;
+        padding: 12px;
+        min-height: 0;
+      }
+
+      .memory-card::after {
+        right: -92px;
+        bottom: -72px;
+        width: 210px;
+      }
+
+      .media-frame {
+        width: 100%;
+        transform: none;
+      }
+
+      .lift-media .media-frame {
+        margin-top: 0;
+      }
+
+      .media-frame img,
+      .media-frame video {
+        min-height: 0;
+        max-height: min(460px, 68svh);
+        border-width: 6px;
+      }
+
+      .media-frame video {
+        aspect-ratio: 16 / 9;
+        min-height: 0;
+        max-height: none;
+      }
+
+      .caption-chip {
+        margin: -18px 0 0 9px;
+        padding: 8px 10px;
+        font-size: 0.78rem;
+      }
+
+      .memory-copy {
+        padding: 18px 2px 4px;
+      }
+
+      .chapter {
+        gap: 8px;
+        margin-bottom: 12px;
+        font-size: 0.74rem;
+      }
+
+      .chapter::after {
+        width: 36px;
+      }
+
+      .memory-copy h3 {
+        font-size: clamp(1.78rem, 7.8vw, 2.24rem);
+        line-height: 1.08;
+        overflow-wrap: break-word;
+        text-wrap: balance;
+      }
+
+      .memory-copy p {
+        margin-top: 16px;
+        font-size: 0.96rem;
+        line-height: 1.48;
+      }
+
+      .finale {
+        padding: 58px 18px 52px;
+        background-position: 48% 60%;
+      }
+
+      .finale-logo {
+        width: 122px;
+        margin-bottom: 42px;
+      }
+
+      .finale h2 {
+        font-size: clamp(2.28rem, 10.4vw, 3.05rem);
+        line-height: 1.04;
+      }
+
+      .finale p {
+        margin-top: 20px;
+        font-size: 1rem;
+        line-height: 1.48;
+      }
+
+      .celebrate-button {
+        margin-top: 28px;
+        padding: 12px 14px;
+        font-size: 0.82rem;
+      }
+
+      .finale::before {
+        right: -96px;
+        bottom: -76px;
+        width: 280px;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .hero h1 {
+        font-size: clamp(2.9rem, 14.2vw, 3.42rem);
+      }
+
+      .hero-kicker {
+        max-width: 210px;
+      }
+
+      .hero-photo.one {
+        opacity: 0.8;
+        width: 82px;
+      }
+
+      .timeline-heading h2,
+      .intro h2,
+      .finale h2 {
+        font-size: clamp(2.05rem, 9.2vw, 2.55rem);
+      }
+
+      .memory-copy h3 {
+        font-size: clamp(1.72rem, 7.4vw, 2.05rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+      }
+
+      .timeline-item {
+        opacity: 1;
+        transform: none;
+      }
+
+      .preloader-mark::before,
+      .preloader-mark::after,
+      .preloader-progress span {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body class="is-loading">
+  <div class="preloader" id="preloader" role="status" aria-live="polite">
+    <div class="preloader-card">
+      <div class="preloader-mark" aria-hidden="true"></div>
+      <div>
+        <p class="preloader-title">Надо немного подготовиться</p>
+        <p class="preloader-text">Собираем фотографии, шрифты и пару теплых воспоминаний.</p>
+      </div>
+      <div class="preloader-progress" aria-hidden="true">
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <img class="brand-logo" src="img/Лого_белый.png" alt="Таврида.АРТ">
+    <img class="hero-photo one" src="photos/Получила грамоту за отличную работу.jpeg" alt="Екатерина с грамотой">
+    <img class="hero-photo two" src="photos/Июль 2025 заезд в домик с коллегами.jpeg" alt="Екатерина с коллегами">
+
+    <div class="hero-content">
+      <h1>Екатерина Князева</h1>
+      <p class="hero-lead">Аналитик, социолог и человек, который так дорог нашему коллективу</p>
+      <ul class="hero-tags" aria-label="Коротко о Екатерине">
+        <li>аналитик</li>
+        <li>социолог</li>
+        <li>хороший человек</li>
+      </ul>
+    </div>
+
+    <a class="scroll-cue" href="#timeline" aria-label="Перейти к таймлайну">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 5v14m0 0 7-7m-7 7-7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </header>
+
+  <main>
+    <section class="timeline-section" id="timeline" aria-labelledby="timeline-title">
+      <div class="timeline-inner">
+        <div class="timeline-rail" aria-hidden="true">
+          <div class="timeline-progress" id="timelineProgress"></div>
+        </div>
+
+        <div class="timeline-heading">
+          <span class="section-label">лента пути</span>
+          <h2 id="timeline-title">Главы, которые хочется пересматривать</h2>
+          <p>Каждая глава — маленький кадр общей памяти: немного работы, немного моря, немного хаоса и очень много тепла.</p>
+        </div>
+
+        <div class="timeline-list" id="timelineList"></div>
+      </div>
+    </section>
+
+    <section class="finale" aria-labelledby="finale-title">
+      <div class="finale-inner">
+        <img class="finale-logo" src="img/Лого_белый.png" alt="Таврида.АРТ">
+        <span class="section-label">спасибо, Катя</span>
+        <h2 id="finale-title">Пусть новая глава будет еще ярче</h2>
+        <p>Спасибо за внимательность, юмор, умный вид на совещаниях, любовь к команде и способность быть человеком, которого правда приятно вспоминать. Мы очень рады за тебя</p>
+        <button class="celebrate-button" type="button" id="celebrateButton">
+          Еще немного праздника
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v18M3 12h18M5.64 5.64l12.72 12.72M18.36 5.64 5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const moments = [
+      {
+        title: "Сотрудник мониторинга исследования целевых аудиторий",
+        text: "Серьезная точка входа: исследования, аудитории, созвоны и тот самый спокойный взгляд человека, который уже понял больше остальных.",
+        media: "photos/Сотрудник мониторинга исследования целевых аудиторий.jpeg",
+        type: "image",
+        tone: "sky",
+        pattern: "8",
+        tilt: "-1.4deg"
+      },
+      {
+        title: "Координатор «Таврида.АРТ»",
+        text: "Когда задач много, людей еще больше, а Катя все равно выглядит так, будто именно так и было задумано.",
+        media: "photos/Координатор \"Таврида.АРТ\".jpeg",
+        type: "image",
+        tone: "mint",
+        pattern: "7",
+        tilt: "1.2deg",
+        lift: true
+      },
+      {
+        title: "Координатор «Таврида.АРТ»",
+        text: "Потому что один кадр координаторства не выдерживает весь масштаб. Нужно закрепить.",
+        media: "photos/Координатор \"Таврида.АРТ\"2.jpeg",
+        type: "image",
+        tone: "sun",
+        pattern: "6",
+        tilt: "-0.8deg",
+        lift: true
+      },
+      {
+        title: "Получила грамоту за отличную работу",
+        text: "Официальное доказательство того, что все и так знали: Катя делает хорошо, с головой и с улыбкой.",
+        media: "photos/Получила грамоту за отличную работу.jpeg",
+        type: "image",
+        tone: "coral",
+        pattern: "5",
+        tilt: "1deg"
+      },
+      {
+        title: "Делала умный вид на совещании",
+        text: "Особый навык аналитика: понимать, что происходит, даже когда происходящее само еще не до конца определилось.",
+        media: "photos/Делала умный вид на совещании.jpeg",
+        type: "image",
+        tone: "berry",
+        pattern: "8",
+        tilt: "-1.1deg"
+      },
+      {
+        title: "Коллеги следили за ее трудовой этикой",
+        text: "Трудовая этика была под наблюдением, но, кажется, выдержала проверку с большим запасом.",
+        media: "photos/Коллеги следили за ее трудовой этикой.jpeg",
+        type: "image",
+        tone: "sky",
+        pattern: "6",
+        tilt: "1.5deg"
+      },
+      {
+        title: "Заезд в домик с коллегами",
+        text: "Полевые условия, командный дух и хлеб как символ надежды на лучший день.",
+        media: "photos/Июль 2025 заезд в домик с коллегами.jpeg",
+        type: "image",
+        tone: "mint",
+        pattern: "7",
+        tilt: "-1.6deg"
+      },
+      {
+        title: "Сгорела на пляже Тавриды",
+        text: "Иногда солнце тоже хочет оставить свой отзыв о человеке. Очень настойчивый отзыв.",
+        media: "photos/Август 2025 сгорела на пляже Тавриды.jpeg",
+        type: "image",
+        tone: "coral",
+        pattern: "5",
+        tilt: "1.2deg"
+      },
+      {
+        title: "Групповое мытье в душе под гимн России",
+        text: "Категория воспоминаний, которую невозможно придумать специально. Зато можно достойно сохранить в легендах.",
+        media: "photos/Начало Августа 2025 групповое мытье в душе под гимн России.jpeg",
+        type: "image",
+        tone: "sun",
+        pattern: "8",
+        tilt: "-0.9deg"
+      },
+      {
+        title: "Любовалась закатами с коллегами",
+        text: "Море, небо, бейджи и улыбка человека, у которого получилось быть в моменте.",
+        media: "photos/Август 2025 любовалась закатами с коллегами.jpeg",
+        type: "image",
+        tone: "sky",
+        pattern: "6",
+        tilt: "1.3deg"
+      },
+      {
+        title: "Была на всех тимбилдингах",
+        text: "Не просто присутствовала, а добавляла команде тот самый человеческий градус тепла.",
+        media: "photos/Была на всех тимбилдингах.jpeg",
+        type: "image",
+        tone: "mint",
+        pattern: "5",
+        tilt: "0.9deg"
+      },
+      {
+        title: "Была на ВСЕХ тимбилдингах",
+        text: "Повторение закрепляет материал: команда, вечер, настроение, Катя на месте.",
+        media: "photos/Была на всех тимбилдингах2.jpeg",
+        type: "image",
+        tone: "sun",
+        pattern: "6",
+        tilt: "1.4deg"
+      },
+      {
+        title: "Отдыхала с коллегами на корпоративе",
+        text: "Здесь уже не фотография, а маленькое видео-доказательство: хорошие рабочие истории умеют двигаться.",
+        media: "photos/Отдыхала с коллегами на копроративе.MOV",
+        type: "video",
+        tone: "coral",
+        pattern: "8",
+        tilt: "-1deg"
+      },
+      {
+        title: "Покоритель сцены серф-приюта",
+        text: "У каждого аналитика должна быть сцена, на которой видно: уверенность — тоже часть методологии.",
+        media: "photos/Покоритель сцены серф-приюта.jpeg",
+        type: "image",
+        tone: "berry",
+        pattern: "5",
+        tilt: "1deg"
+      },
+      {
+        title: "Восхищалась крымскими винами",
+        text: "Исследовательская оптика распространяется на все важное: людей, процессы и, конечно, локальные вкусы.",
+        media: "photos/Восхищалась крымскими винами.jpeg",
+        type: "image",
+        tone: "coral",
+        pattern: "8",
+        tilt: "-1.2deg"
+      },
+      {
+        title: "Получала приглашения на свидание (но не пошла)",
+        text: "Умение выбирать приоритеты — тоже профессиональная компетенция. Здесь она проявилась безупречно.",
+        media: "photos/Получала приглашения на свидание (но не пошла).jpeg",
+        type: "image",
+        tone: "mint",
+        pattern: "6",
+        tilt: "1.2deg"
+      },
+      {
+        title: "Ну и на корпоративе была",
+        text: "Маршрут расширялся, но ощущение оставалось прежним: Катя там, где есть движение, люди и новые сюжеты.",
+        media: "photos/Ну и в Москву тоже ездила.jpeg",
+        type: "image",
+        tone: "sun",
+        pattern: "7",
+        tilt: "-0.8deg"
+      }
+    ];
+
+    const timelineList = document.querySelector("#timelineList");
+    const progressLine = document.querySelector("#timelineProgress");
+    const timelineInner = document.querySelector(".timeline-inner");
+    const preloader = document.querySelector("#preloader");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function preloadImage(src) {
+      return new Promise((resolve) => {
+        const image = new Image();
+        image.onload = resolve;
+        image.onerror = resolve;
+        image.src = src;
+      });
+    }
+
+    function preloadVideoMetadata(src) {
+      return new Promise((resolve) => {
+        const video = document.createElement("video");
+        let isDone = false;
+        const done = () => {
+          if (isDone) {
+            return;
+          }
+
+          isDone = true;
+          window.clearTimeout(timeout);
+          video.removeAttribute("src");
+          video.load();
+          resolve();
+        };
+        const timeout = window.setTimeout(done, 7000);
+
+        video.preload = "metadata";
+        video.muted = true;
+        video.playsInline = true;
+        video.addEventListener("loadedmetadata", done, { once: true });
+        video.addEventListener("error", done, { once: true });
+        video.src = src;
+      });
+    }
+
+    function unique(values) {
+      return [...new Set(values)];
+    }
+
+    function preloadSiteAssets() {
+      const imageAssets = unique([
+        "img/Лого_белый.png",
+        "img/Лого_черный-2.png",
+        "paterns/5.png",
+        "paterns/6.png",
+        "paterns/7.png",
+        "paterns/8.png",
+        "photos/Была буквой «О».jpeg",
+        "photos/Получила грамоту за отличную работу.jpeg",
+        "photos/Июль 2025 заезд в домик с коллегами.jpeg",
+        ...moments
+          .filter((moment) => moment.type === "image")
+          .map((moment) => moment.media)
+      ]);
+
+      const videoAssets = moments
+        .filter((moment) => moment.type === "video")
+        .map((moment) => moment.media);
+
+      const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+      const minimumDelay = new Promise((resolve) => window.setTimeout(resolve, 850));
+
+      return Promise.allSettled([
+        fontsReady,
+        minimumDelay,
+        ...imageAssets.map(preloadImage),
+        ...videoAssets.map(preloadVideoMetadata)
+      ]);
+    }
+
+    function openSite() {
+      document.body.classList.remove("is-loading");
+      preloader.classList.add("is-hidden");
+      preloader.addEventListener("transitionend", () => preloader.remove(), { once: true });
+      window.setTimeout(() => preloader.remove(), 900);
+
+      if (!reducedMotion) {
+        window.setTimeout(() => launchConfetti(42), 260);
+      }
+    }
+
+    function createMoment(moment, index) {
+      const number = String(index + 1).padStart(2, "0");
+      const article = document.createElement("article");
+      article.className = `timeline-item tone-${moment.tone} pattern-${moment.pattern}${moment.lift ? " lift-media" : ""}`;
+
+      const node = document.createElement("div");
+      node.className = "timeline-node";
+      node.textContent = number;
+      article.append(node);
+
+      const card = document.createElement("div");
+      card.className = "memory-card";
+
+      const figure = document.createElement("figure");
+      figure.className = "media-frame";
+      figure.style.setProperty("--tilt", moment.tilt);
+
+      const media = document.createElement(moment.type === "video" ? "video" : "img");
+      media.src = moment.media;
+
+      if (moment.type === "video") {
+        media.controls = true;
+        media.preload = "metadata";
+        media.playsInline = true;
+        media.textContent = "Ваш браузер не смог открыть видео из папки photos.";
+      } else {
+        media.alt = moment.title;
+        media.loading = index < 2 ? "eager" : "lazy";
+        media.decoding = "async";
+      }
+
+      const caption = document.createElement("figcaption");
+      caption.className = "caption-chip";
+      caption.textContent = `Глава ${number}`;
+
+      figure.append(media, caption);
+
+      const copy = document.createElement("div");
+      copy.className = "memory-copy";
+
+      const chapter = document.createElement("div");
+      chapter.className = "chapter";
+      chapter.textContent = `момент ${number}`;
+
+      const title = document.createElement("h3");
+      title.textContent = moment.title;
+
+      const text = document.createElement("p");
+      text.textContent = moment.text;
+
+      copy.append(chapter, title, text);
+      card.append(figure, copy);
+      article.append(card);
+
+      return article;
+    }
+
+    moments.forEach((moment, index) => {
+      timelineList.append(createMoment(moment, index));
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
+
+    document.querySelectorAll(".timeline-item").forEach((item) => {
+      revealObserver.observe(item);
+    });
+
+    function updateTimelineProgress() {
+      const rect = timelineInner.getBoundingClientRect();
+      const trigger = window.innerHeight * 0.46;
+      const traveled = trigger - rect.top;
+      const progress = Math.max(0, Math.min(1, traveled / rect.height));
+      progressLine.style.height = `${progress * 100}%`;
+    }
+
+    function launchConfetti(amount = 54) {
+      if (reducedMotion) {
+        return;
+      }
+
+      const colors = ["#ff6a4a", "#ffd15a", "#62c6ad", "#91b8df", "#ffffff", "#a95c8d"];
+
+      for (let index = 0; index < amount; index += 1) {
+        const piece = document.createElement("span");
+        piece.className = "confetti-piece";
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = `${2.4 + Math.random() * 2.6}s`;
+        piece.style.animationDelay = `${Math.random() * 0.28}s`;
+        piece.style.setProperty("--drift", `${(Math.random() - 0.5) * 260}px`);
+        piece.style.setProperty("--spin", `${360 + Math.random() * 760}deg`);
+        document.body.append(piece);
+        piece.addEventListener("animationend", () => piece.remove(), { once: true });
+      }
+    }
+
+    window.addEventListener("scroll", updateTimelineProgress, { passive: true });
+    window.addEventListener("resize", updateTimelineProgress);
+    document.querySelector("#celebrateButton").addEventListener("click", () => launchConfetti(90));
+
+    updateTimelineProgress();
+    preloadSiteAssets().then(openSite);
+  </script>
+</body>
+</html>
